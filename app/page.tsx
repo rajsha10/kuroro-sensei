@@ -20,9 +20,9 @@ export default function Home() {
     <>
       {authState.isAuthenticated ? (
         <KuroroLanding />
-      ) : (
+       ) : (
         <LoginButton />
-      )}
+       )}
     </>
   )
 }

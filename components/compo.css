@@ -29,3 +29,146 @@
 .washi-texture {
   perspective: 1000px;
 }
+
+/* button */
+
+.wallet-connection {
+  display: flex;
+  align-items: center;
+}
+
+.wallet-connection p {
+  font-family: "Macondo", cursive;
+  color: #859F3D;
+  background: rgba(49, 81, 30, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(133, 159, 61, 0.3);
+  box-shadow: 0 0 10px rgba(133, 159, 61, 0.1);
+}
+
+.wallet-connection button {
+  background: linear-gradient(135deg, #859F3D 0%, #31511E 100%);
+  color: #F6FCDF;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(133, 159, 61, 0.2);
+}
+
+.wallet-connection button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(133, 159, 61, 0.3);
+  background: linear-gradient(135deg, #31511E 0%, #859F3D 100%);
+}
+
+/* about page  */
+
+.washi-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,.03)' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.cherry-blossom {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: hsl(350, 100%, 88%);
+  border-radius: 15px 15px 0 15px;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.feature-card {
+  background: rgba(26, 26, 46, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  border-color: hsl(350, 100%, 88%, 0.3);
+}
+
+.feature-icon {
+  background: linear-gradient(135deg, rgba(125, 10, 10, 0.2), rgba(255, 99, 99, 0.1));
+  border: 1px solid rgba(255, 99, 99, 0.2);
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.text-gold {
+  color: hsl(43, 74%, 66%);
+}
+
+.text-cherry {
+  color: hsl(350, 100%, 88%);
+}
+
+
+/* abouthero */
+
+.washi-texture {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,.03)' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.cherry-blossom {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: hsl(350, 100%, 88%);
+  border-radius: 15px 15px 0 15px;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.text-gold {
+  color: hsl(43, 74%, 66%);
+}
+
+.text-cherry {
+  color: hsl(350, 100%, 88%);
+}
+
+.feature-item {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+}
+
+.feature-item:hover .rounded-full {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 99, 99, 0.2);
+}
+
+.rounded-full {
+  transition: all 0.3s ease;
+}
+

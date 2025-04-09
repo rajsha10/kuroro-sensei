@@ -10,12 +10,24 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Sensei } from "@/components/sensei"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 export default function DojoPage() {
   const [step, setStep] = useState(1)
   const [files, setFiles] = useState<File[]>([])
   const [senseiName, setSenseiName] = useState("")
   const [senseiPersonality, setSenseiPersonality] = useState("calm")
+  const [senseiVoice, setSenseiVoice] = useState("calm")
+  const [senseiAvatar, setSenseiAvatar] = useState("traditional")
+
+  // Define available sensei avatars
+  const senseiAvatars = [
+    { id: "traditional", name: "Traditional Master", path: "/images/sensie_traditional_master.svg" },
+    { id: "modern", name: "Modern Sensei", path: "/images/sensie_modern_sensei.svg" },
+    { id: "warrior", name: "Warrior Monk", path: "/images/sensie_warrior-monk.svg" },
+    { id: "scholar", name: "Scholarly Sage", path: "/images/sensie_scholarly-sage.svg" },
+    { id: "mystical", name: "Mystical Guide", path: "/images/sensie_mystical-guide.svg" },
+  ]
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -28,15 +40,20 @@ export default function DojoPage() {
     setStep(step + 1)
   }
 
+  // Get current avatar path based on selection
+  const getCurrentAvatarPath = () => {
+    return senseiAvatars.find(avatar => avatar.id === senseiAvatar)?.path || senseiAvatars[0].path
+  }
+
   return (
-    <main className="min-h-screen washi-texture pt-20">
+    <main className="min-h-screen washi-texture">
       <Navigation />
 
-      <div className="max-w-4xl mx-auto p-4">
+      <div className="max-w-4xl mx-auto p-4 pt-14">
         <h1 className="text-4xl font-bold mb-2 text-center">
           <span className="text-cherry">道場</span> The Dojo
         </h1>
-        <p className="text-xl mb-8 text-center">Forge your personal AI Sensei</p>
+        <p className="text-xl mb-8 mt-2 text-center">Forge your personal AI Sensei</p>
 
         <Card className="bg-background/80 backdrop-blur-sm border-gold/20">
           <CardContent className="p-6">
@@ -44,7 +61,7 @@ export default function DojoPage() {
               <form onSubmit={handleSubmit}>
                 <h2 className="text-2xl font-bold mb-6">Upload Your Scrolls</h2>
 
-                <div className="mb-8">
+                <div className="mb-6">
                   <div className="border-2 border-dashed border-muted-foreground/50 rounded-lg p-8 text-center cursor-pointer hover:border-cherry/50 transition-colors">
                     <input
                       type="file"
@@ -87,10 +104,38 @@ export default function DojoPage() {
                     </div>
                   )}
                 </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <Label htmlFor="sensei-name">Name your Sensei</Label>
+                    <Input
+                      id="sensei-name"
+                      value={senseiName}
+                      onChange={(e) => setSenseiName(e.target.value)}
+                      placeholder="Enter a name for your Sensei"
+                      className="bg-background mt-1"
+                    />
+                  </div>
 
-                <div className="flex justify-end">
+                  <div>
+                    <Label htmlFor="sensei-voice">Choose voice</Label>
+                    <Select value={senseiVoice} onValueChange={setSenseiVoice}>
+                      <SelectTrigger id="sensei-voice" className="bg-background mt-1">
+                        <SelectValue placeholder="Select a voice" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="calm">Quan Wouk</SelectItem>
+                        <SelectItem value="wise">Master Chen</SelectItem>
+                        <SelectItem value="energetic">Jade Tiger</SelectItem>
+                        <SelectItem value="poetic">Echo Wind</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
                   <Button type="submit" className="bg-cherry hover:bg-cherry/80 text-cherry-foreground">
-                    Continue
+                    Generate
                   </Button>
                 </div>
               </form>
@@ -130,22 +175,41 @@ export default function DojoPage() {
 
                     <div className="mb-4">
                       <Label htmlFor="sensei-voice">Voice</Label>
-                      <Select defaultValue="calm">
+                      <Select value={senseiVoice} onValueChange={setSenseiVoice}>
                         <SelectTrigger id="sensei-voice" className="bg-background">
                           <SelectValue placeholder="Select a voice style" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="calm">Calm Whisper</SelectItem>
-                          <SelectItem value="wise">Wise Elder</SelectItem>
-                          <SelectItem value="energetic">Energetic Guide</SelectItem>
-                          <SelectItem value="poetic">Poetic Sage</SelectItem>
+                          <SelectItem value="calm">Quan Wouk</SelectItem>
+                          <SelectItem value="wise">Master Chen</SelectItem>
+                          <SelectItem value="energetic">Jade Tiger</SelectItem>
+                          <SelectItem value="poetic">Echo Wind</SelectItem>
                         </SelectContent>
                       </Select>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <Label className="block mb-2">Choose Avatar Style</Label>
+                      <RadioGroup value={senseiAvatar} onValueChange={setSenseiAvatar} className="flex flex-col space-y-2">
+                        {senseiAvatars.map((avatar) => (
+                          <div key={avatar.id} className="flex items-center space-x-2">
+                            <RadioGroupItem value={avatar.id} id={`avatar-${avatar.id}`} />
+                            <Label htmlFor={`avatar-${avatar.id}`} className="cursor-pointer">{avatar.name}</Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
                     </div>
                   </div>
 
                   <div className="flex flex-col items-center justify-center">
-                    <Sensei type="default" size="lg" />
+                    <div className="relative w-64 h-64 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-gold/30">
+                      <img 
+                        src={getCurrentAvatarPath()} 
+                        alt={`${senseiAvatar} sensei avatar`} 
+                        className="max-w-full max-h-full object-cover"
+                        style={{scale: "1.4"}}
+                      />
+                    </div>
                     <p className="text-sm mt-4">Your AI Sensei awaits</p>
                   </div>
                 </div>
@@ -171,7 +235,14 @@ export default function DojoPage() {
                 <h2 className="text-2xl font-bold mb-6">Meet Your Sensei</h2>
 
                 <div className="flex flex-col items-center justify-center mb-8">
-                  <Sensei type="default" size="lg" className="mb-4" />
+                  <div className="relative w-64 h-64 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-gold/30 mb-4">
+                    <img 
+                      src={getCurrentAvatarPath()} 
+                      alt={`${senseiAvatar} sensei avatar`} 
+                      className="max-w-full max-h-full object-contain"
+                      style={{scale:"1.4"}}
+                    />
+                  </div>
                   <h3 className="text-xl font-bold">{senseiName || "Zen Master"}</h3>
                   <p className="text-muted-foreground mb-4">
                     Personality: {senseiPersonality.charAt(0).toUpperCase() + senseiPersonality.slice(1)}

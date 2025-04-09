@@ -21,8 +21,8 @@ export default function RootLayout({
 }>) {
   const opts = {
     clientId: '<Does_Not_Matter_For_Sandbox_mode>',    
-    redirectUri: 'http://localhost:3000/redirect', // Adjust this URL
-    referralCode: 'EDUCHAIN', // Assign partner code
+    redirectUri: 'http://localhost:3000/redirect',
+    referralCode: 'EDUCHAIN',
   };
 
   return (
