@@ -1,0 +1,31 @@
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(-2deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Optional: Add this for a subtle hover effect */
+.animate-float:hover {
+  animation-play-state: paused;
+}
+
+/* For 3D effect */
+.washi-texture {
+  perspective: 1000px;
+}
