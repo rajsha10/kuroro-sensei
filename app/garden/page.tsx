@@ -1,16 +1,22 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Sensei } from "@/components/sensei"
 import Link from "next/link"
+import { useSenseiStore, type Sensei as SenseiType } from "@/lib/SenseiStore"
+import { useRouter } from "next/navigation"
 
-const senseis = [
+// Default senseis
+const defaultSenseis = [
   {
     name: "Quantum Whisperer",
     category: "Science",
     rating: 4.8,
     tokens: 2450,
     type: "default",
+    avatar: "scholar",
   },
   {
     name: "Haiku Master",
@@ -18,6 +24,7 @@ const senseis = [
     rating: 4.6,
     tokens: 1890,
     type: "default",
+    avatar: "traditional",
   },
   {
     name: "Code Ninja",
@@ -25,6 +32,7 @@ const senseis = [
     rating: 4.9,
     tokens: 3200,
     type: "default",
+    avatar: "modern",
   },
   {
     name: "History Sage",
@@ -32,6 +40,7 @@ const senseis = [
     rating: 4.7,
     tokens: 2100,
     type: "default",
+    avatar: "traditional",
   },
   {
     name: "Math Monk",
@@ -39,6 +48,7 @@ const senseis = [
     rating: 4.5,
     tokens: 1750,
     type: "default",
+    avatar: "scholar",
   },
   {
     name: "Philosophy Fox",
@@ -46,10 +56,44 @@ const senseis = [
     rating: 4.8,
     tokens: 2300,
     type: "fox",
+    avatar: "mystical",
   },
 ]
 
 export default function GardenPage() {
+  const router = useRouter()
+  const { getAllSenseis, setCurrentSensei } = useSenseiStore()
+  const [allSenseis, setAllSenseis] = useState<SenseiType[]>([])
+
+  useEffect(() => {
+    // Get user-created senseis
+    const userSenseis = getAllSenseis()
+
+    // Create combined list with default senseis
+    const combinedSenseis = [
+      ...userSenseis,
+      ...defaultSenseis.map((s) => ({
+        id: `default_${s.name.toLowerCase().replace(/\s+/g, "_")}`,
+        name: s.name,
+        personality: "calm",
+        voice: "calm",
+        avatar: s.avatar,
+        avatarPath: `/images/sensie_${s.avatar}.svg`,
+        category: s.category,
+        rating: s.rating,
+        tokens: s.tokens,
+        createdAt: 0,
+      })),
+    ]
+
+    setAllSenseis(combinedSenseis)
+  }, [getAllSenseis])
+
+  const handleSelectSensei = (senseiId: string) => {
+    setCurrentSensei(senseiId)
+    router.push("/chat")
+  }
+
   return (
     <main className="min-h-screen washi-texture pt-20">
       <Navigation />
@@ -79,12 +123,19 @@ export default function GardenPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {senseis.map((sensei, index) => (
-            <Card key={index} className="bg-background/80 backdrop-blur-sm border-gold/20 overflow-hidden group">
+          {allSenseis.map((sensei) => (
+            <Card key={sensei.id} className="bg-background/80 backdrop-blur-sm border-gold/20 overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-b from-cherry/5 to-gold/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
               <CardContent className="p-6 flex flex-col items-center">
-                <Sensei type={sensei.type as "default" | "fox"} className="mb-4" />
+                <div className="relative w-24 h-24 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-gold/30 mb-4">
+                  <img
+                    src={sensei.avatarPath || "/placeholder.svg"}
+                    alt={`${sensei.name} avatar`}
+                    className="max-w-full max-h-full object-cover"
+                    style={{ scale: "1.4" }}
+                  />
+                </div>
                 <h3 className="text-xl font-bold mb-1">{sensei.name}</h3>
                 <p className="text-muted-foreground mb-2">{sensei.category}</p>
 
@@ -119,7 +170,11 @@ export default function GardenPage() {
               </CardContent>
 
               <CardFooter className="p-6 pt-0 flex justify-center">
-                <Button variant="outline" className="border-cherry text-cherry hover:bg-cherry/10">
+                <Button
+                  variant="outline"
+                  className="border-cherry text-cherry hover:bg-cherry/10"
+                  onClick={() => handleSelectSensei(sensei.id)}
+                >
                   Learn with Sensei
                 </Button>
               </CardFooter>

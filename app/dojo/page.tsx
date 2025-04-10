@@ -3,16 +3,20 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Sensei } from "@/components/sensei"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { ContractConnector } from "@/components/web3/contractConnector"
+import { useSenseiStore } from "@/lib/SenseiStore"
 
 export default function DojoPage() {
+  const router = useRouter()
+  const { addSensei } = useSenseiStore()
   const [step, setStep] = useState(1)
   const [files, setFiles] = useState<File[]>([])
   const [senseiName, setSenseiName] = useState("")
@@ -42,7 +46,27 @@ export default function DojoPage() {
 
   // Get current avatar path based on selection
   const getCurrentAvatarPath = () => {
-    return senseiAvatars.find(avatar => avatar.id === senseiAvatar)?.path || senseiAvatars[0].path
+    return senseiAvatars.find((avatar) => avatar.id === senseiAvatar)?.path || senseiAvatars[0].path
+  }
+
+  const handleGenerateSensei = () => {
+    // Store the sensei in our global store
+    addSensei({
+      name: senseiName || "Zen Master",
+      personality: senseiPersonality,
+      voice: senseiVoice,
+      avatar: senseiAvatar,
+      avatarPath: getCurrentAvatarPath(),
+      category: "Custom",
+      rating: 5.0,
+      tokens: 0,
+    })
+
+    setStep(3)
+  }
+
+  const handleStartLearning = () => {
+    router.push("/chat")
   }
 
   return (
@@ -104,7 +128,7 @@ export default function DojoPage() {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
                     <Label htmlFor="sensei-name">Name your Sensei</Label>
@@ -187,14 +211,20 @@ export default function DojoPage() {
                         </SelectContent>
                       </Select>
                     </div>
-                    
+
                     <div className="mb-4">
                       <Label className="block mb-2">Choose Avatar Style</Label>
-                      <RadioGroup value={senseiAvatar} onValueChange={setSenseiAvatar} className="flex flex-col space-y-2">
+                      <RadioGroup
+                        value={senseiAvatar}
+                        onValueChange={setSenseiAvatar}
+                        className="flex flex-col space-y-2"
+                      >
                         {senseiAvatars.map((avatar) => (
                           <div key={avatar.id} className="flex items-center space-x-2">
                             <RadioGroupItem value={avatar.id} id={`avatar-${avatar.id}`} />
-                            <Label htmlFor={`avatar-${avatar.id}`} className="cursor-pointer">{avatar.name}</Label>
+                            <Label htmlFor={`avatar-${avatar.id}`} className="cursor-pointer">
+                              {avatar.name}
+                            </Label>
                           </div>
                         ))}
                       </RadioGroup>
@@ -203,11 +233,11 @@ export default function DojoPage() {
 
                   <div className="flex flex-col items-center justify-center">
                     <div className="relative w-64 h-64 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-gold/30">
-                      <img 
-                        src={getCurrentAvatarPath()} 
-                        alt={`${senseiAvatar} sensei avatar`} 
+                      <img
+                        src={getCurrentAvatarPath() || "/placeholder.svg"}
+                        alt={`${senseiAvatar} sensei avatar`}
                         className="max-w-full max-h-full object-cover"
-                        style={{scale: "1.4"}}
+                        style={{ scale: "1.4" }}
                       />
                     </div>
                     <p className="text-sm mt-4">Your AI Sensei awaits</p>
@@ -223,7 +253,11 @@ export default function DojoPage() {
                   >
                     Back
                   </Button>
-                  <Button type="submit" className="bg-cherry hover:bg-cherry/80 text-cherry-foreground">
+                  <Button
+                    type="button"
+                    className="bg-cherry hover:bg-cherry/80 text-cherry-foreground"
+                    onClick={handleGenerateSensei}
+                  >
                     Generate Sensei
                   </Button>
                 </div>
@@ -236,11 +270,11 @@ export default function DojoPage() {
 
                 <div className="flex flex-col items-center justify-center mb-8">
                   <div className="relative w-64 h-64 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-gold/30 mb-4">
-                    <img 
-                      src={getCurrentAvatarPath()} 
-                      alt={`${senseiAvatar} sensei avatar`} 
+                    <img
+                      src={getCurrentAvatarPath() || "/placeholder.svg"}
+                      alt={`${senseiAvatar} sensei avatar`}
                       className="max-w-full max-h-full object-contain"
-                      style={{scale:"1.4"}}
+                      style={{ scale: "1.4" }}
                     />
                   </div>
                   <h3 className="text-xl font-bold">{senseiName || "Zen Master"}</h3>
@@ -265,13 +299,7 @@ export default function DojoPage() {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="button"
-                    className="bg-cherry hover:bg-cherry/80 text-cherry-foreground"
-                    onClick={() => (window.location.href = "/chat")}
-                  >
-                    Begin Learning
-                  </Button>
+                  <ContractConnector onSuccess={handleStartLearning} />
                 </div>
               </div>
             )}
